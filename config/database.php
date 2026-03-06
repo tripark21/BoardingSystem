@@ -1,10 +1,10 @@
 <?php
 // Support both Railway environment variables and local development
-$db_host = getenv('PGHOST') ?: 'localhost';
-$db_port = getenv('PGPORT') ?: '5432';
-$db_user = getenv('PGUSER') ?: 'postgres';
-$db_pass = getenv('PGPASSWORD') ?: '123';
-$db_name = getenv('PGDATABASE') ?: 'boarding_db';
+$db_host = getenv('PGHOST') ?: ($_ENV['PGHOST'] ?? 'localhost');
+$db_port = getenv('PGPORT') ?: ($_ENV['PGPORT'] ?? '5432');
+$db_user = getenv('PGUSER') ?: ($_ENV['PGUSER'] ?? 'postgres');
+$db_pass = getenv('PGPASSWORD') ?: ($_ENV['PGPASSWORD'] ?? '123');
+$db_name = getenv('PGDATABASE') ?: ($_ENV['PGDATABASE'] ?? 'boarding_db');
 
 define('DB_HOST', $db_host);
 define('DB_PORT', $db_port);
@@ -13,7 +13,7 @@ define('DB_PASS', $db_pass);
 define('DB_NAME', $db_name);
 
 try {
-    $dsn  = "pgsql:host=" . DB_HOST . ";port=" . DB_PORT . ";dbname=" . DB_NAME;
+    $dsn = "pgsql:host=" . DB_HOST . ";port=" . DB_PORT . ";dbname=" . DB_NAME . ";sslmode=require";
     $conn = new PDO($dsn, DB_USER, DB_PASS, [
         PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
         PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
