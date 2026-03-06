@@ -1,9 +1,16 @@
 <?php
-define('DB_HOST', 'localhost');
-define('DB_PORT', '5432');
-define('DB_USER', 'postgres');
-define('DB_PASS', '123');
-define('DB_NAME', 'boarding_db');
+// Support both Railway environment variables and local development
+$db_host = getenv('PGHOST') ?: 'localhost';
+$db_port = getenv('PGPORT') ?: '5432';
+$db_user = getenv('PGUSER') ?: 'postgres';
+$db_pass = getenv('PGPASSWORD') ?: '123';
+$db_name = getenv('PGDATABASE') ?: 'boarding_db';
+
+define('DB_HOST', $db_host);
+define('DB_PORT', $db_port);
+define('DB_USER', $db_user);
+define('DB_PASS', $db_pass);
+define('DB_NAME', $db_name);
 
 try {
     $dsn  = "pgsql:host=" . DB_HOST . ";port=" . DB_PORT . ";dbname=" . DB_NAME;
